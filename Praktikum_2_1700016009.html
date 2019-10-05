@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Interaktivitas</title>
+	<style type="text/css">
+		canvas{
+			background-color: #000000;
+		}
+	</style>
+</head>
+<body>
+
+<canvas height="450" width="800" id="canvas"></canvas>
+<script type="text/javascript">
+	var c = document.getElementById('canvas');
+	var ctx = c.getContext('2d');
+
+	//membuat garis
+	document.body.addEventListener('mousedown', drawline);
+	function drawline(a){
+		var x = a.offsetX;
+		var y = a.offsetY;
+		ctx.lineTo(x,y);
+		ctx.lineWidth = 3;
+		ctx.strokeStyle='white';
+		ctx.stroke();
+	}
+
+	//Mewarnai tekan enter
+	document.body.addEventListener('keydown', tekanEnter);
+	function tekanEnter(a){
+			ctx.fillStyle = 'red';
+			ctx.fill();
+		} else{
+			alert("Tekan tombol Enter untuk mewarnai.");
+			ctx.beginPath();
+			var x = a.offsetX;
+			var y = a.offsetY;
+			ctx.lineTo(x,y);
+			ctx.lineWidth = 3;
+			ctx.strokeStyle='white';
+			ctx.stroke();
+		}
+	}
+
+	
+</script>
+
+</body>
+</html>
