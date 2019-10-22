@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Canvas HTML</title>
+<style type="text/css">
+	canvas{
+		background-color: #ccc;
+	}
+</style>
+</head>
+<body>
+
+<canvas width="800" height="450" id="canvas"></canvas>
+<script type="text/javascript">
+	var c = document.getElementById('canvas');
+	var ctx =c.getContext('2d');
+
+	//Lingkaran 1
+	ctx.beginPath();
+	ctx.arc(400, 225, 165, 0, Math.PI * 2);
+	ctx.fillStyle = "maroon";
+	ctx.lineWidth = 6;
+	ctx.strokeStyle ="white";
+	ctx.fill();
+	ctx.stroke();
+
+	//Lingkaran 2
+	ctx.beginPath();
+	ctx.arc(400, 225, 120, 0, Math.PI * 2);
+	ctx.fillStyle = "orange";
+	ctx.fill();
+
+	//Persegi
+	ctx.beginPath();
+	ctx.rect(340, 163, 120, 120);
+	ctx.fillStyle = "#339999";
+	ctx.lineWidth = 6;
+	ctx.strokeStyle = "white";
+	ctx.fill();
+	ctx.stroke();
+
+	//Segitiga Kanan
+	ctx.beginPath();
+	ctx.moveTo(670, 100);
+	ctx.lineTo(790, 220);
+	ctx.lineTo(670, 350);
+	ctx.fillStyle = "#339933";
+	ctx.fill();
+
+	//Segitiga Kiri
+	ctx.beginPath();
+	ctx.moveTo(130, 100);
+	ctx.lineTo(15, 220);
+	ctx.lineTo(130, 355);
+	ctx.fillStyle = "#339933";
+	ctx.fill();
+
+
+</script>
+
+</body>
+</html>
