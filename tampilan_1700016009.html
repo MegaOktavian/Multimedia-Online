@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Animasi Salju Kiri ke Kanan</title>
+    <style type="text/css">
+        body{
+            background-image: url("Gambar/gambar.jpg");
+            background-size: 100% 100%;
+        }
+        h1{
+            margin-left: 80px;
+            color: white;
+            font-size: 39.29px;
+            font-family: Times New Roman;
+        }
+        br.nim{
+            font-size: 26px;
+        }
+        p{
+             font-size: 20px;
+        }
+        .button {
+          display: inline-block;
+          border-radius: 4px;
+          background-color: black;
+          color: white;
+          text-align: center;
+          font-size: 28px;
+          font-family: Times New Roman;
+          padding: 7.5px;
+          width: 280px;
+          transition: all 0.5s;
+          cursor: pointer;
+          margin: 2px;
+          margin-left: 700px;
+        }
+
+        .button span {
+          cursor: pointer;
+          display: inline-block;
+          position: relative;
+          transition: 0.5s;
+        }
+
+        .button span:after {
+          content: '\00bb';
+          position: absolute;
+          opacity: 0;
+          top: 0;
+          right: -20px;
+          transition: 0.5s;
+        }
+
+        .button:hover span {
+          padding-right: 25px;
+        }
+
+        .button:hover span:after {
+          opacity: 1;
+          right: 0;
+        }
+    </style>
+</head>
+<body>
+<script type="text/javascript">
+
+    var ball=[];
+    let latar1 = new Audio();
+    latar1.src = "audio/latar1.mp3";
+
+    function startMyApp(){
+        myApp.start();
+        for(var i =0; i<100; i++){
+            var x = Math.random()*myApp.canvas.width;
+            var y = Math.random()*myApp.canvas.height;
+            ball[i]= new Sprite(x,y,Math.random()*3,'white');
+        }
+    }
+    var myApp = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = 1350;
+        this.canvas.height = 451;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);  
+        appControl();
+        this.interval = setInterval(appLoop, 20);
+    },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        }
+    }
+
+    function appLoop(){
+        myApp.clear();
+        for(var i=0;i<ball.length;i++){
+            ball[i].x += ball[i].speed;
+            ball[i].y += ball[i].speed;
+            if(ball[i].x>myApp.canvas.width) ball[i].x=0;
+            if(ball[i].y>myApp.canvas.height) ball[i].y=0;
+            ball[i].update();
+        }
+    }
+
+    //Lingkaran
+
+    function Sprite(x,y,radius,color){
+        this.x=x;
+        this.y=y;
+        this.radius=radius;
+        this.color=color;
+        this.speed=(Math.random()*7);
+        var ctx=myApp.context;
+        this.update=function(){
+                ctx.beginPath();
+                ctx.arc(this.x,this.y,this.radius,0,2*Math.PI);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+        }
+    }
+
+    function appControl(){
+        document.body.addEventListener('mousedown',function(e){});
+        latar1.play();
+    }
+
+    startMyApp(); 
+</script>
+    <h1>Mega Oktaviani Fadillah
+        <br class="nim">1700016009
+        <a href="permainan.html" class="button" style="vertical-align:middle">
+            <span>Mulai Permainan</span></a></br>
+        <p>Ujian Tengah Semester Multimedia Online 4 November 2019</p>
+    </h1>
+</html>

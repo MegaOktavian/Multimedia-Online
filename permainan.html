@@ -1,0 +1,154 @@
+<html>
+    <head>
+        <title>Permainan</title>
+        <style>
+            body{
+                background-image: url("Gambar/gambar.jpg");
+                background-size: 100%;
+            }
+            canvas{
+                display: block;
+                margin: 0 auto;
+            }
+        </style>
+    </head>
+<body>
+    <p style="color:white;">Keterangan : Permainan menggunakan tombok panah 
+    kanan, kiri, atas, dan bawah pada keyboard</p>
+    <canvas id="ular" width="1216" height="608"></canvas>
+    <script>
+        //pengaturan canvas
+        const cvs = document.getElementById("ular");
+        const ctx = cvs.getContext("2d");
+        //ukuran panjang dan lebar kotak
+        //jumlah kotak kesamping 38 x 32 = 1216
+        //jumlah kotak kesamping 19 x 32 = 608
+        const kotak = 32; 
+
+        //memanggil gambar background
+        const arena = new Image();
+        arena.src = "Gambar/arena.png";
+
+        //memanggil gambar makanan
+        const makananImg = new Image();
+        makananImg.src = "Gambar/makanan.png";
+
+        //menambahan audio
+        let awal = new Audio();
+        awal.src = "audio/awal.mp3";
+
+        let tombol = new Audio();
+        tombol.src = "audio/tombol.mp3";
+
+        let makan = new Audio();
+        makan.src = "audio/makan.mp3";
+
+        let mati = new Audio();
+        mati.src = "audio/mati.mp3";
+
+        // membuat ular
+        let ular = [];
+        ular[0] = {
+            x : 9 * kotak,
+            y : 10 * kotak
+        };
+
+        //mengatur makanan
+        let makanan = {
+            x : Math.floor(Math.random()*36+1) * kotak,
+            y : Math.floor(Math.random()*15+3) * kotak
+        }
+
+        let score = 0, kunci;
+
+        document.addEventListener("keydown",direction);
+
+        //mengatur pergerakan keyboard
+        function direction(event){
+            let key = event.keyCode;
+            if( key == 37 && kunci != "kanan"){
+                kunci = "kiri";
+                tombol.play();
+            }else if(key == 38 && kunci != "bawah"){
+                kunci = "atas";
+                tombol.play();
+            }else if(key == 39 && kunci != "kiri"){
+                kunci = "kanan";
+                tombol.play();
+            }else if(key == 40 && kunci != "atas"){
+                kunci = "bawah";
+                tombol.play();
+            }
+        }
+
+
+        function collision(kepala,array){
+            for(let i = 0; i < array.length; i++){
+                if(kepala.x == array[i].x && kepala.y == array[i].y){
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        //function utama permainan
+        function draw(){
+            awal.play();
+            ctx.drawImage(arena,0,0);
+            for( let i = 0; i < ular.length ; i++){
+                ctx.fillStyle = ( i == 0 )? "yellow" : "yellow";
+                ctx.fillRect(ular[i].x,ular[i].y,kotak,kotak);
+                
+                ctx.strokeStyle = "orange";
+                ctx.strokeRect(ular[i].x,ular[i].y,kotak,kotak);
+            }
+            
+            ctx.drawImage(makananImg, makanan.x, makanan.y);
+            
+            let ularX = ular[0].x;
+            let ularY = ular[0].y;
+
+            //mengatur pergerakan
+            if( kunci == "kiri") ularX -= kotak;
+            if( kunci == "atas") ularY -= kotak;
+            if( kunci == "kanan") ularX += kotak;
+            if( kunci == "bawah") ularY += kotak;
+            
+            //mengatur posisi makanan
+            if(ularX == makanan.x && ularY == makanan.y){
+                score++;
+                makan.play();
+                makanan = {
+                    x : Math.floor(Math.random()*36+1) * kotak,
+                    y : Math.floor(Math.random()*15+3) * kotak
+                }
+            }else{
+                ular.pop();
+            }
+            
+            //mengatur bagian badan
+            let badan = {
+                x : ularX,
+                y : ularY
+            }
+            
+            //pengaturan game over
+            if(ularX < kotak || ularX > 36 * kotak || ularY < 3*kotak 
+                || ularY > 17*kotak || collision(badan,ular)){
+                clearInterval(game);
+                mati.play();
+            }
+            
+            ular.unshift(badan);
+
+            //mengatur jumlah skor
+            ctx.fillStyle = "yellow";
+            ctx.font = "45px Timew New Roman";
+            ctx.fillText(score,2*kotak,1.75*kotak);
+        }
+
+        let game = setInterval(draw,100);
+
+    </script>
+</body>
+</html>
