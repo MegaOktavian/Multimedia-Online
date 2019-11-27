@@ -84,14 +84,14 @@ if (navigator.mediaDevices) {
 
       downloadButton.onclick = function(e) {
         var blob = new Blob(recordedChunks, {
-          type: 'webm'
+          type: 'mp3'
         });
         var url = URL.createObjectURL(blob);
         var a = document.createElement('a');
         document.body.appendChild(a);
         a.style = 'display: none';
         a.href = url;
-        a.download = clipName + '.webm';
+        a.download = clipName + '.mp3';
         a.click();
         window.URL.revokeObjectURL(url);
       }
